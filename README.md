@@ -48,7 +48,7 @@
 
 ### Ver Alimentacao
 
-`GET` nubeck/api/v1/ver-alimentacao
+`GET` mrf/api/v1/ver-alimentacao
 
 **Exemplo de Resposta** 
 ```js
@@ -74,7 +74,7 @@
 
 ### Minhas Refeicoes
 
-`GET` nubeck/api/v1/ver-alimentacao/minhas-refeicoes/{id}
+`GET` mrf/api/v1/ver-alimentacao/minhas-refeicoes/{id}
 
 **Exemplo de Resposta** 
 
