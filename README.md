@@ -20,7 +20,7 @@
 {
     "dia": '2023-01-01',
     "horario": '08:30',
-    "categoria_id": 4,
+    "tipoRefeicao": "Cafe da manha",
     "refeicao": 'pão',
     "bebida": "suco de laranja,
     "calorias": '100 kcal'
@@ -48,7 +48,7 @@
 
 ### Ver Alimentacao
 
-`GET` mrf/api/v1/ver-alimentacao
+`GET` mrf/api/v1/veralimentacao
 
 **Exemplo de Resposta** 
 ```js
@@ -74,7 +74,7 @@
 
 ### Minhas Refeicoes
 
-`GET` mrf/api/v1/ver-alimentacao/minhas-refeicoes/{id}
+`GET` mrf/api/v1/veralimentacao/minhasrefeicoes/{id}
 
 **Exemplo de Resposta** 
 

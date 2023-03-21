@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Refeicao {
     
-    private String id;
+    private Long id;
     private String dia;
     private String horario;
     private String tipoRefeicao;
@@ -12,13 +12,21 @@ public class Refeicao {
     private String bebida;
     private Integer calorias;
     
-    public Refeicao (String id, String dia, String horario, String tipoRefeicao, String refeicao, String bebida, Integer calorias) {
+    public Refeicao (Long id, String dia, String horario, String tipoRefeicao, String refeicao, String bebida, Integer calorias) {
         this.id = id;
         this.dia = dia;
         this.horario = horario;
         this.tipoRefeicao = tipoRefeicao;
         this.refeicao = refeicao;
         this.bebida = bebida;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDia() {
@@ -62,6 +70,9 @@ public class Refeicao {
     public String toString() {
         return "Refeicao [id=" + id + ", dia=" + dia + ", horario=" + horario + ", tipoRefeicao=" + tipoRefeicao
                 + ", refeicao=" + refeicao + ", bebida=" + bebida + ", calorias=" + calorias + "]";
+    }
+
+    public void add(Refeicao refeicao2) {
     }
 
     
