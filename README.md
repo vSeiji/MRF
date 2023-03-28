@@ -12,7 +12,7 @@
 
 ### Cadastro de refeicao 
 <!-- Endereço do recurso -->
-`POST` mrf/api/v1/cadastrar-refeicao
+`POST` mrf/api/v1/refeicao
 
 <!-- Colocar a versão é importante para compatibilidade  --> 
 **Exemplo de Entrada** 
@@ -48,7 +48,7 @@
 
 ### Ver Alimentacao
 
-`GET` mrf/api/v1/veralimentacao
+`GET` mrf/api/v1/alimentacao
 
 **Exemplo de Resposta** 
 ```js
@@ -74,7 +74,7 @@
 
 ### Minhas Refeicoes
 
-`GET` mrf/api/v1/veralimentacao/minhasrefeicoes/{id}
+`GET` mrf/api/v1/alimentacao/refeicoes/{id}
 
 **Exemplo de Resposta** 
 
