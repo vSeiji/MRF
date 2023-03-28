@@ -29,11 +29,6 @@ public class RefeicaoController {
     @Autowired
     RefeicaoRepository repository; //IoD
 
-    @GetMapping("/api/v1/alimentacao")
-    public List<Refeicao> index(){
-        return repository.findAll();
-    }
-
     @PostMapping("/api/v1/refeicao")
     public ResponseEntity<Refeicao> create(@RequestBody Refeicao refeicao){
         log.info("cadastrando refeicao" + refeicao);
@@ -41,45 +36,4 @@ public class RefeicaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(refeicao);
     }
 
-    @GetMapping("/api/v1/alimentacao/refeicoes/{id}")
-    public ResponseEntity<Refeicao> show(@PathVariable Long id){
-        log.info("buscando refeicao:" + id);
-        var refeicaoEncontrada = repository.findById(id);
-
-        if(refeicaoEncontrada.isEmpty()) 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-
-        return ResponseEntity.ok(refeicaoEncontrada.get());
-    }
-
-    @DeleteMapping("/api/v1/alimentacao/refeicoes/{id}")
-    public ResponseEntity<Refeicao> destroy(@PathVariable Long id){
-        log.info("apagando refeicao:" + id);
-
-        var refeicaoEncontrada = repository.findById(id);
-
-        if(refeicaoEncontrada.isEmpty()) 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        repository.delete(refeicaoEncontrada.get());
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-    @PutMapping("/api/v1/alimentacao/refeicoes/{id}")
-    public ResponseEntity<Refeicao> update(@PathVariable Long id, @RequestBody Refeicao refeicao){
-        log.info("atualizando refeicao:" + id);
-
-        var refeicaoEncontrada = repository.findById(id);
-
-        if(refeicaoEncontrada.isEmpty()) 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        //BeanUtils.copyProperties(refeicao, refeicaoAtualizada, "id");
-
-        refeicao.setId(id);
-        repository.save(refeicao);
-        return ResponseEntity.ok(refeicao);
-    }
 }
