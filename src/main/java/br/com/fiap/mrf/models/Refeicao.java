@@ -1,9 +1,15 @@
 package br.com.fiap.mrf.models;
 
-import java.sql.Date;
 
+import jakarta.annotation.Generated;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Refeicao {
-    
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String dia;
     private String horario;
@@ -12,6 +18,8 @@ public class Refeicao {
     private String bebida;
     private Integer calorias;
     
+    protected Refeicao(){}
+
     public Refeicao (Long id, String dia, String horario, String tipoRefeicao, String refeicao, String bebida, Integer calorias) {
         this.id = id;
         this.dia = dia;
