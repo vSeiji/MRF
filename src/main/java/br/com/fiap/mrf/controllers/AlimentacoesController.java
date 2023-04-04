@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.fiap.mrf.exception.RestNotFoundException;
 import br.com.fiap.mrf.models.Refeicao;
 import br.com.fiap.mrf.repository.RefeicaoRepository;
+import jakarta.validation.Valid;
 
 @RestController
 public class AlimentacoesController {
@@ -33,13 +35,13 @@ public class AlimentacoesController {
     @GetMapping("/api/v1/alimentacao/refeicoes/{id}")
     public ResponseEntity<Refeicao> show(@PathVariable Long id){
         log.info("buscando refeicao:" + id);
-        var refeicaoEncontrada = repository.findById(id);
+        var refeicao = getRefeicao(id);
+        return ResponseEntity.ok(refeicao);
+    }
 
-        if(refeicaoEncontrada.isEmpty()) 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-
-        return ResponseEntity.ok(refeicaoEncontrada.get());
+    private Refeicao getRefeicao(Long id) {
+        return repository.findById(id).orElseThrow(
+            () -> new RestNotFoundException("refeicao nao encontrada"));
     }
 
     @DeleteMapping("/api/v1/alimentacao/refeicoes/{id}")
@@ -57,7 +59,7 @@ public class AlimentacoesController {
     }
 
     @PutMapping("/api/v1/alimentacao/refeicoes/{id}")
-    public ResponseEntity<Refeicao> update(@PathVariable Long id, @RequestBody Refeicao refeicao){
+    public ResponseEntity<Refeicao> update(@PathVariable Long id, @RequestBody @Valid Refeicao refeicao){
         log.info("atualizando refeicao:" + id);
 
         var refeicaoEncontrada = repository.findById(id);

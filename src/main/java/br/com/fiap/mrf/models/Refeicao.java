@@ -1,26 +1,47 @@
 package br.com.fiap.mrf.models;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Refeicao {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String dia;
-    private String horario;
+
+    @NotNull
+    private LocalDate dia;
+
+    @NotNull
+    private LocalTime horario;
+
+    @NotNull
     private String tipoRefeicao;
+
+    @NotNull @Size (min = 5, max = 200, message = "deve ser uma refeicao significativa")
     private String refeicao;
+
+    @NotNull @Size (min = 5, max = 200, message = "deve ser uma bebida significativa")
     private String bebida;
+
+    @NotNull
     private Integer calorias;
     
     protected Refeicao(){}
 
-    public Refeicao (Long id, String dia, String horario, String tipoRefeicao, String refeicao, String bebida, Integer calorias) {
+    public Refeicao (Long id, LocalDate dia, LocalTime horario, String tipoRefeicao, String refeicao, String bebida, Integer calorias) {
         this.id = id;
         this.dia = dia;
         this.horario = horario;
@@ -37,16 +58,16 @@ public class Refeicao {
         this.id = id;
     }
 
-    public String getDia() {
+    public LocalDate getDia() {
         return dia;
     }
-    public void setDia(String dia) {
+    public void setDia(LocalDate dia) {
         this.dia = dia;
     }
-    public String getHorario() {
+    public LocalTime getHorario() {
         return horario;
     }
-    public void setHorario(String horario) {
+    public void setHorario(LocalTime horario) {
         this.horario = horario;
     }
     public String getTipoRefeicao() {
