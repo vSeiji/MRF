@@ -25,7 +25,8 @@ public class RefeicaoController {
 
     @PostMapping("/api/v1/refeicao")
     public ResponseEntity<Refeicao> create(
-        @RequestBody @Valid Refeicao refeicao, BindingResult result){
+        @RequestBody @Valid Refeicao refeicao, 
+        BindingResult result){
         
         log.info("cadastrando refeicao" + refeicao);
         repository.save(refeicao);

@@ -35,42 +35,30 @@ public class AlimentacoesController {
     @GetMapping("/api/v1/alimentacao/refeicoes/{id}")
     public ResponseEntity<Refeicao> show(@PathVariable Long id){
         log.info("buscando refeicao:" + id);
-        var refeicao = getRefeicao(id);
+        return ResponseEntity.ok(getRefeicao(id));
+    }
+
+    @DeleteMapping("/api/v1/alimentacao/refeicoes/{id}")
+    public ResponseEntity<Refeicao> destroy(@PathVariable Long id){
+        log.info("apagando refeicao:" + id);
+        repository.delete(getRefeicao(id));
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/api/v1/alimentacao/refeicoes/{id}")
+    public ResponseEntity<Refeicao> update(
+        @PathVariable Long id, 
+        @RequestBody @Valid Refeicao refeicao){
+
+        log.info("atualizando refeicao:" + id);
+        getRefeicao(id);
+        refeicao.setId(id);
+        repository.save(refeicao);
         return ResponseEntity.ok(refeicao);
     }
 
     private Refeicao getRefeicao(Long id) {
         return repository.findById(id).orElseThrow(
             () -> new RestNotFoundException("refeicao nao encontrada"));
-    }
-
-    @DeleteMapping("/api/v1/alimentacao/refeicoes/{id}")
-    public ResponseEntity<Refeicao> destroy(@PathVariable Long id){
-        log.info("apagando refeicao:" + id);
-
-        var refeicaoEncontrada = repository.findById(id);
-
-        if(refeicaoEncontrada.isEmpty()) 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        repository.delete(refeicaoEncontrada.get());
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-    @PutMapping("/api/v1/alimentacao/refeicoes/{id}")
-    public ResponseEntity<Refeicao> update(@PathVariable Long id, @RequestBody @Valid Refeicao refeicao){
-        log.info("atualizando refeicao:" + id);
-
-        var refeicaoEncontrada = repository.findById(id);
-
-        if(refeicaoEncontrada.isEmpty()) 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        //BeanUtils.copyProperties(refeicao, refeicaoAtualizada, "id");
-
-        refeicao.setId(id);
-        repository.save(refeicao);
-        return ResponseEntity.ok(refeicao);
     }
 }
