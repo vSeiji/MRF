@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.fiap.mrf.exception.RestNotFoundException;
 import br.com.fiap.mrf.models.Refeicao;
 import br.com.fiap.mrf.repository.RefeicaoRepository;
+import br.com.fiap.mrf.repository.UsersRepository;
 import jakarta.validation.Valid;
 
 @RestController
@@ -24,6 +25,9 @@ public class AlimentacoesController {
     
     Logger log = LoggerFactory.getLogger(RefeicaoController.class);
 
+    @Autowired
+    UsersRepository userRepository;
+    
     @Autowired
     RefeicaoRepository repository;
 
