@@ -28,50 +28,50 @@ public class UsersController {
 
     @Autowired
     UsersRepository repository; //IoD
-
+//------------------------------------------------------------------------------------------------------------------
     @GetMapping
     public List<Users> index(){
         return repository.findAll();
     }
-
+//------------------------------------------------------------------------------------------------------------------
     @PostMapping
     public ResponseEntity<Users> create(
             @RequestBody @Valid Users user, 
             BindingResult result
         ){
-        log.info("cadastrando conta: " + user);
+        log.info("Cadastrando conta: " + user);
         repository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
-
+//------------------------------------------------------------------------------------------------------------------
     @GetMapping("{id}")
     public ResponseEntity<Users> show(@PathVariable Long id){
-        log.info("buscando conta: " + id);
+        log.info("Buscando conta: " + id);
         return ResponseEntity.ok(getUsers(id));
     }
-
+//------------------------------------------------------------------------------------------------------------------
     @DeleteMapping("{id}")
     public ResponseEntity<Users> destroy(@PathVariable Long id){
-        log.info("apagando conta: " + id);
+        log.info("Apagando conta: " + id);
         repository.delete(getUsers(id));
         return ResponseEntity.noContent().build();
     }
-
+//------------------------------------------------------------------------------------------------------------------
     @PutMapping("{id}")
     public ResponseEntity<Users> update(
         @PathVariable Long id, 
         @RequestBody @Valid Users user
     ){
-        log.info("atualizando conta: " + id);
+        log.info("Atualizando conta: " + id);
         getUsers(id);
         user.setId(id);
         repository.save(user);
         return ResponseEntity.ok(user);
     }
-
+//------------------------------------------------------------------------------------------------------------------
     private Users getUsers(Long id) {
         return repository.findById(id).orElseThrow(
-            () -> new RestNotFoundException("conta não encontrada"));
+            () -> new RestNotFoundException("Conta não encontrada"));
     }
     
 }

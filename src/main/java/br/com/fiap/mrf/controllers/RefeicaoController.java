@@ -26,13 +26,13 @@ public class RefeicaoController {
     
     @Autowired
     RefeicaoRepository repository; //IoD
-
+//------------------------------------------------------------------------------------------------------------------
     @PostMapping("/api/v1/refeicao")
     public ResponseEntity<Refeicao> create(
         @RequestBody @Valid Refeicao refeicao, 
         BindingResult result){
         
-        log.info("cadastrando refeicao" + refeicao);
+        log.info("Cadastrando refeição: " + refeicao);
         repository.save(refeicao);
         refeicao.setUser(userRepository.findById(refeicao.getUser().getId()).get());
         return ResponseEntity.status(HttpStatus.CREATED).body(refeicao);
