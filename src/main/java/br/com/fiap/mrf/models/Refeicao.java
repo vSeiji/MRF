@@ -28,7 +28,7 @@ public class Refeicao {
     private LocalTime horario;
 
     @NotNull
-    private String tipoRefeicao;
+    private String tipo;
 
     @NotNull @Size (min = 5, max = 200, message = "deve ser uma refeicao significativa")
     private String refeicao;

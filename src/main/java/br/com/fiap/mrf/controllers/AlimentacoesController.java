@@ -5,6 +5,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.mrf.exception.RestNotFoundException;
@@ -31,11 +36,14 @@ public class AlimentacoesController {
     UsersRepository userRepository;
     
     @Autowired
-    RefeicaoRepository repository;
+    RefeicaoRepository refeicaoRepository;
 //------------------------------------------------------------------------------------------------------------------
     @GetMapping
-    public List<Refeicao> index(){
-        return repository.findAll();
+    public Page<Refeicao> index(@RequestParam(required = false) String busca, @PageableDefault(size = 5) Pageable pageable){
+                           
+        if (busca == null) 
+            return refeicaoRepository.findAll(pageable);
+        return refeicaoRepository.findByTipoContaining(busca, pageable);
     }
 //------------------------------------------------------------------------------------------------------------------
     @GetMapping("/refeicoes/{id}")
@@ -47,7 +55,7 @@ public class AlimentacoesController {
     @DeleteMapping("/refeicoes/{id}")
     public ResponseEntity<Refeicao> destroy(@PathVariable Long id){
         log.info("Apagando refeição:" + id);
-        repository.delete(getRefeicao(id));
+        refeicaoRepository.delete(getRefeicao(id));
         return ResponseEntity.noContent().build();
     }
 //------------------------------------------------------------------------------------------------------------------
@@ -59,12 +67,12 @@ public class AlimentacoesController {
         log.info("Atualizando refeição:" + id);
         getRefeicao(id);
         refeicao.setId(id);
-        repository.save(refeicao);
+        refeicaoRepository.save(refeicao);
         return ResponseEntity.ok(refeicao);
     }
 //------------------------------------------------------------------------------------------------------------------
     private Refeicao getRefeicao(Long id) {
-        return repository.findById(id).orElseThrow(
+        return refeicaoRepository.findById(id).orElseThrow(
             () -> new RestNotFoundException("Refeição não encontrada"));
     }
 }
