@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Refeicao {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +30,7 @@ public class Refeicao {
     private LocalTime horario;
 
     @NotNull
-    private String tipoRefeicao;
+    private String tipo;
 
     @NotNull @Size (min = 5, max = 200, message = "deve ser uma refeicao significativa")
     private String refeicao;
@@ -41,6 +43,4 @@ public class Refeicao {
     
     @ManyToOne
     private Users user;
-
-
 }
