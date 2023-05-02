@@ -2,6 +2,11 @@ package br.com.fiap.mrf.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,18 +37,22 @@ public class AlimentacoesController {
     
     @Autowired
     RefeicaoRepository refeicaoRepository;
+
+    @Autowired
+    PagedResourcesAssembler<Object> assembler;
 //------------------------------------------------------------------------------------------------------------------
     @GetMapping
-    public Page<Refeicao> index(@RequestParam(required = false) String busca, @PageableDefault(size=5) Pageable pageable){
-        if (busca == null)
-            return refeicaoRepository.findAll(pageable);
-        return refeicaoRepository.findByTipoContaining(busca, pageable);
+    public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String busca, @PageableDefault(size=5) Pageable pageable){
+        var refeicoes = (busca == null) ?
+            refeicaoRepository.findAll(pageable):
+            refeicaoRepository.findByTipoContaining(busca, pageable);
+        return assembler.toModel(refeicoes.map(Refeicao::toEntityModel));
     }
 //------------------------------------------------------------------------------------------------------------------
     @GetMapping("/refeicoes/{id}")
-    public ResponseEntity<Refeicao> show(@PathVariable Long id){
+    public EntityModel<Refeicao> show(@PathVariable Long id){
         log.info("Buscando refeição:" + id);
-        return ResponseEntity.ok(getRefeicao(id));
+        return getRefeicao(id).toEntityModel();
     }
 //------------------------------------------------------------------------------------------------------------------
     @DeleteMapping("/refeicoes/{id}")
@@ -54,7 +63,7 @@ public class AlimentacoesController {
     }
 //------------------------------------------------------------------------------------------------------------------
     @PutMapping("/refeicoes/{id}")
-    public ResponseEntity<Refeicao> update(
+    public ResponseEntity<EntityModel<Refeicao>> update(
         @PathVariable Long id, 
         @RequestBody @Valid Refeicao refeicao){
 
@@ -62,7 +71,7 @@ public class AlimentacoesController {
         getRefeicao(id);
         refeicao.setId(id);
         refeicaoRepository.save(refeicao);
-        return ResponseEntity.ok(refeicao);
+        return ResponseEntity.ok(refeicao.toEntityModel());
     }
 //------------------------------------------------------------------------------------------------------------------
     private Refeicao getRefeicao(Long id) {
