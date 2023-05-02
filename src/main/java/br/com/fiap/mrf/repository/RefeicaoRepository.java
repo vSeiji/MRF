@@ -12,6 +12,4 @@ import br.com.fiap.mrf.models.Refeicao;
 
 public interface RefeicaoRepository extends JpaRepository<Refeicao, Long> {
     Page<Refeicao> findByTipoContaining(String busca, Pageable pageable);
-
-
 }
