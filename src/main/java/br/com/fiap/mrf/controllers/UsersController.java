@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.mrf.exception.RestNotFoundException;
+import br.com.fiap.mrf.models.Credencial;
 import br.com.fiap.mrf.models.Users;
 import br.com.fiap.mrf.repository.UsersRepository;
 import jakarta.validation.Valid;
@@ -28,20 +31,29 @@ public class UsersController {
 
     @Autowired
     UsersRepository repository; //IoD
+
+    @Autowired
+    AuthenticationManager manager;
+
+    @Autowired
+    PasswordEncoder encoder;
 //------------------------------------------------------------------------------------------------------------------
     @GetMapping
     public List<Users> index(){
         return repository.findAll();
     }
 //------------------------------------------------------------------------------------------------------------------
-    @PostMapping
-    public ResponseEntity<Users> create(
-            @RequestBody @Valid Users user, 
-            BindingResult result
-        ){
-        log.info("Cadastrando conta: " + user);
+    @PostMapping("/api/registrar")
+    public ResponseEntity<Users> registrar(@RequestBody @Valid Users user){
+        user.setSenha(encoder.encode(user.getSenha()));
         repository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.ok(user);
+    }
+//------------------------------------------------------------------------------------------------------------------
+    @PostMapping("/api/login")
+    public ResponseEntity<Object> login(@RequestBody Credencial credencial){
+        manager.authenticate(credencial.toAuthentication());
+        return ResponseEntity.ok().build();
     }
 //------------------------------------------------------------------------------------------------------------------
     @GetMapping("{id}")
