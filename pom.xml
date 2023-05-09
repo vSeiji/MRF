@@ -57,11 +57,12 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-<<<<<<< HEAD
 			<artifactId>spring-boot-starter-security</artifactId>
-=======
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
->>>>>>> 7a2a04a1244aa7f86e01561a260fbf220eb83eef
 		</dependency>
 	</dependencies>
 	
