@@ -3,11 +3,9 @@ package br.com.fiap.mrf.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +19,7 @@ import br.com.fiap.mrf.exception.RestNotFoundException;
 import br.com.fiap.mrf.models.Credencial;
 import br.com.fiap.mrf.models.Users;
 import br.com.fiap.mrf.repository.UsersRepository;
+import br.com.fiap.mrf.service.TokenService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,13 +29,16 @@ import lombok.extern.slf4j.Slf4j;
 public class UsersController {
 
     @Autowired
-    UsersRepository repository; //IoD
+    UsersRepository repository;
 
     @Autowired
     AuthenticationManager manager;
 
     @Autowired
     PasswordEncoder encoder;
+
+    @Autowired
+    TokenService tokenService;
 //------------------------------------------------------------------------------------------------------------------
     @GetMapping
     public List<Users> index(){
@@ -53,7 +55,8 @@ public class UsersController {
     @PostMapping("/api/login")
     public ResponseEntity<Object> login(@RequestBody Credencial credencial){
         manager.authenticate(credencial.toAuthentication());
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken(credencial);
+        return ResponseEntity.ok(token);
     }
 //------------------------------------------------------------------------------------------------------------------
     @GetMapping("{id}")
