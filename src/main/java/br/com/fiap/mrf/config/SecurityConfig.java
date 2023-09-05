@@ -1,6 +1,5 @@
 package br.com.fiap.mrf.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                     .requestMatchers(HttpMethod.POST, "/api/registrar").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
-                    //.anyRequest().authenticated()
+                    .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
@@ -37,6 +36,7 @@ public class SecurityConfig {
                 .and()
                 .headers().frameOptions().sameOrigin()
                 .and()
+
                 .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
         if( env.getActiveProfiles().length > 0 && env.getActiveProfiles()[0].equals("open")){
             http.authorizeHttpRequests().anyRequest().permitAll();
@@ -51,7 +51,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
         return config.getAuthenticationManager();
     }
-
+    
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

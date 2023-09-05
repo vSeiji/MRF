@@ -8,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import br.com.fiap.mrf.models.Users;
 import br.com.fiap.mrf.service.TokenService;
 import jakarta.servlet.FilterChain;
