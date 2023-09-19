@@ -31,12 +31,12 @@ public class RefeicaoController {
     public ResponseEntity<EntityModel<Refeicao>> create(
         @RequestBody @Valid Refeicao refeicao, 
         BindingResult result){
-        
+    
         log.info("Cadastrando refeição: " + refeicao);
         repository.save(refeicao);
         refeicao.setUser(userRepository.findById(refeicao.getUser().getId()).get());
         return ResponseEntity
             .created(refeicao.toEntityModel().getRequiredLink("self").toUri())
             .body(refeicao.toEntityModel());
-    }
+}
 }
