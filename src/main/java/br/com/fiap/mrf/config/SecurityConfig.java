@@ -28,7 +28,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                     .requestMatchers(HttpMethod.POST, "/api/registrar").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
-                    .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin().disable()
@@ -36,8 +35,8 @@ public class SecurityConfig {
                 .and()
                 .headers().frameOptions().sameOrigin()
                 .and()
-
                 .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
+                
         if( env.getActiveProfiles().length > 0 && env.getActiveProfiles()[0].equals("open")){
             http.authorizeHttpRequests().anyRequest().permitAll();
         }else{
