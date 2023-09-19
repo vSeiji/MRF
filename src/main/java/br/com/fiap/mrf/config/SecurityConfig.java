@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
-        
+
         if( env.getActiveProfiles().length > 0 && env.getActiveProfiles()[0].equals("open")){
             http.authorizeHttpRequests().anyRequest().permitAll();
         }else{

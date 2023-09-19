@@ -9,12 +9,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
 import br.com.fiap.mrf.models.Refeicao;
 import br.com.fiap.mrf.models.Users;
 import br.com.fiap.mrf.repository.RefeicaoRepository;
 import br.com.fiap.mrf.repository.UsersRepository;
 
 @Configuration
+@Profile("dev")
 public class DatabaseSeeder implements CommandLineRunner {
  
     @Autowired
